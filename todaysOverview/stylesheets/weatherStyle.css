@@ -1,0 +1,62 @@
+.weatherToday,
+.weatherForecast {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+	backdrop-filter: blur(5px);
+	background-color: #1f2833;
+}
+.weatherToday {
+	margin-right: 5px;
+}
+.weatherForecast {
+	margin-left: 5px;
+}
+
+.buttonContainer {
+	display: flex;
+	flex-direction: column;
+}
+#todaysWeatherImage,
+#forecastWeatherImage {
+	width: 100px;
+	height: 100px;
+}
+#todaysWeatherTemp,
+#forecastWeatherTemp {
+	font-size: 78px;
+	overflow: hidden;
+	align-self: center;
+	color: #c5c6c7;
+	cursor: default;
+}
+.tempChange {
+	width: 50px;
+	height: 51px;
+	font-size: 26px;
+	background: none;
+	border: none;
+	opacity: 25%;
+}
+.activeButton {
+	opacity: 100%;
+	color: #45a29e;
+}
+.tempChange:hover {
+	cursor: pointer;
+	opacity: 100%;
+}
+#todaysDetails,
+#forecastDetails {
+	height: 100px;
+	text-align: left;
+	font-size: 20px;
+	line-height: 24pt;
+	flex-grow: 1;
+	cursor: default;
+	overflow: hidden;
+	color: #c5c6c7;
+}

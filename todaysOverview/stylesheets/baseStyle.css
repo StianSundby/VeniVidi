@@ -1,0 +1,52 @@
+/* 
+#0B0C10 BACKGROUND
+#1F2833 LESS BACKGROUND
+#C5C6C7 TEXT
+#66FCF1 HIGHLIGHT
+#45A29E LESS HIGHLIST
+
+*/
+
+html {
+	background: #0b0c10;
+}
+h1 {
+	text-align: center;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #45a29e;
+}
+p {
+	text-align: center;
+}
+div {
+	text-align: center;
+}
+.parent {
+	display: grid;
+	grid-template-columns: 0.5fr repeat(5, 1fr);
+	grid-template-rows: 0.4fr repeat(4, 1fr) 0.2fr;
+	grid-column-gap: 0px;
+	grid-row-gap: 0px;
+}
+
+.navbar {
+	grid-area: 1 / 1 / 2 / 7;
+}
+.menu {
+	grid-area: 2 / 1 / 6 / 2;
+}
+.weatherTodayContainer {
+	grid-area: 2 / 2 / 3 / 4;
+}
+.weatherForecastContainer {
+	grid-area: 2 / 4 / 3 / 6;
+}
+.bills {
+	grid-area: 2 / 6 / 6 / 7;
+}
+.mainContent {
+	grid-area: 3 / 2 / 6 / 6;
+}
+.footer {
+	grid-area: 6 / 1 / 7 / 7;
+}

@@ -1,0 +1,87 @@
+#calendar {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	grid-template-rows: repeat(5, 1fr);
+	height: 100%;
+	width: 100%;
+}
+.day {
+	border: 1px solid #1f2833;
+	color: #c5c6c7;
+	text-align: center;
+	padding-top: 5px;
+	font-size: 12px;
+	cursor: pointer;
+	transition: #0b0c10 200ms, #66fcf1 200ms;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 16px;
+}
+.name {
+	padding-bottom: 5px;
+}
+.weekend {
+	color: #45a29e;
+	background-color: rgba(12, 0, 41, 0.1);
+}
+.selected {
+	background-color: #1f2833;
+	color: #45a29e;
+}
+
+.calendarNavBar {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: center;
+	padding-top: 20px;
+	padding-bottom: 5px;
+}
+.calendarButton {
+	border: none;
+	background-color: #1f2833;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 18px;
+	color: #c5c6c7;
+	cursor: pointer;
+}
+.calendarButton:hover {
+	background-color: #171d25;
+}
+#todayButton {
+	order: 1;
+	flex-basis: 80px;
+	height: 40px;
+	width: 80px;
+}
+#arrowButton {
+	order: 2;
+	height: 40px;
+	width: 40px;
+	margin-left: 5px;
+}
+.monthDiv {
+	order: 3;
+	display: flex;
+	color: #c5c6c7;
+	align-items: center;
+	justify-content: center;
+	font-size: 18px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	background-color: #1f2833;
+	height: 40px;
+	flex-basis: 220px;
+	margin-left: 5px;
+}
+
+.highlightDiv {
+	animation: highlightDiv 0.25s linear 1;
+}
+
+@keyframes highlightDiv {
+	50% {
+		background-color: #66fcf1;
+	}
+}
