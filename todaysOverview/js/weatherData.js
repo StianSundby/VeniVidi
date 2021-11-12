@@ -183,7 +183,7 @@ function getDirection(degrees) {
 function setDataToday() {
 	weatherCodeToday =
 		responseTimeseries[todayIndex].data.next_1_hours.summary.symbol_code;
-	todaysWeatherImageDiv.innerHTML = `<img src="./icons/icons/${weatherCodeToday}.svg"></img>`;
+	todaysWeatherImageDiv.innerHTML = `<img src="./resources/weatherIcons/${weatherCodeToday}.svg"></img>`;
 
 	todaysTemp =
 		responseTimeseries[
@@ -211,7 +211,7 @@ function setDataToday() {
 		responseTimeseries[todayIndex].data.instant.details.wind_speed.toFixed() +
 		responseUnits.wind_speed +
 		" " +
-		`<img src="./icons/icons/degree_arrow.svg" style="transform: rotate(${windDegrees}deg)">${getDirection(
+		`<img src="./resources/weatherIcons/degree_arrow.svg" style="transform: rotate(${windDegrees}deg)">${getDirection(
 			windDegrees
 		)}</img>`;
 	// +
@@ -222,7 +222,7 @@ function setDataToday() {
 function setDataForecast() {
 	weatherCodeForecast =
 		responseTimeseries[forecastIndex].data.next_1_hours.summary.symbol_code;
-	forecastWeatherImageDiv.innerHTML = `<img src="./icons/icons/${weatherCodeForecast}.svg"></img>`;
+	forecastWeatherImageDiv.innerHTML = `<img src="./resources/weatherIcons/${weatherCodeForecast}.svg"></img>`;
 
 	forecastTemp =
 		responseTimeseries[
@@ -252,7 +252,7 @@ function setDataForecast() {
 		].data.instant.details.wind_speed.toFixed() +
 		responseUnits.wind_speed +
 		" " +
-		`<img src="./icons/icons/degree_arrow.svg" style="transform: rotate(${windDegrees}deg)">${getDirection(
+		`<img src="./resources/icons/degree_arrow.svg" style="transform: rotate(${windDegrees}deg)">${getDirection(
 			windDegrees
 		)}</img>`;
 }
