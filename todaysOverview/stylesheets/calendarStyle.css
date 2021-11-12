@@ -75,6 +75,17 @@
 	flex-basis: 220px;
 	margin-left: 5px;
 }
+#addEvent {
+	border: 1px solid #1f2833;
+	color: #c5c6c7;
+	text-align: center;
+	padding-top: 5px;
+	font-size: 12px;
+	transition: #0b0c10 200ms, #66fcf1 200ms;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 16px;
+}
 
 .highlightDiv {
 	animation: highlightDiv 0.25s linear 1;

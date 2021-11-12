@@ -211,7 +211,7 @@ function setDataToday() {
 		responseTimeseries[todayIndex].data.instant.details.wind_speed.toFixed() +
 		responseUnits.wind_speed +
 		" " +
-		`<img src="./resources/weatherIcons/degree_arrow.svg" style="transform: rotate(${windDegrees}deg)">${getDirection(
+		`<img src="./resources/icons/degree_arrow.svg" style="transform: rotate(${windDegrees}deg)">${getDirection(
 			windDegrees
 		)}</img>`;
 	// +

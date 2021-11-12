@@ -28,7 +28,7 @@ function buildCalendar() {
 
 		let name = "";
 		if (i <= 7) {
-			let dayName = getDayName(i);
+			let dayName = getDayName(i); //TODO: This always returns the current day. So if its a friday every day will be marked as friday
 			name = `<div class="name">${dayName}</div>`;
 		}
 
@@ -39,6 +39,13 @@ function buildCalendar() {
 			}">${name}<br>${i}</div>`
 		);
 	}
+	calendar.insertAdjacentHTML(
+		"beforeend",
+		`<div
+			style="width:${(35 - monthLength) * 100}%; " 
+			id="addEvent">
+		</div>`
+	);
 }
 
 //returns the short version of the day name - I.E: Mon, instead of Monday
@@ -76,7 +83,13 @@ function highlightToday() {
 }
 
 //changes which month you're seeing
-function changeMonth(direction) {}
+function changeMonth(direction) {
+	if (direction == "forward") {
+		console.log("forward");
+	} else if (direction == "back") {
+		console.log("back");
+	}
+}
 
 //adds an onclick listener on all days generated in buildCalendar()
 //onlick it adds a class to indicate that it has been selected
@@ -87,6 +100,7 @@ document.querySelectorAll("#calendar .day").forEach((day) => {
 });
 
 //TODO: funksjonen på linje 79, for å bytte måned
+
 //TODO: legge til events på en dag
 //TODO: faste events på mange dager
 //TODO: events med reminder
