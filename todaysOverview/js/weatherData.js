@@ -30,14 +30,13 @@ function getWeatherData() {
 	const latitude = "lat=59.27569773646279";
 	const altitude = "altitude=26";
 	axios
-		.get(
-			`https://api.met.no/weatherapi/locationforecast/2.0/compact?${longitude}&${latitude}&${altitude}`
-		)
+		.get(`https://api.met.no/weatherapi/locationforecast/2.0/compact?${longitude}&${latitude}&${altitude}`)
 		.then(function (response) {
 			responseTimeseries = response.data.properties.timeseries;
 			responseUnits = response.data.properties.meta.units;
 			getCurrentTimeIndex(); //finds the index in responseTimeseries[] that corresponds with the current time
 			getForecastIndex(); //find the index in responseTimeseries[] that correspons with current time + 1 day/24 hours
+			console.log(response);
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -160,18 +159,8 @@ function getForecastIndex() {
 	console.log("No data entry for tomorrow was found");
 }
 function getDirection(degrees) {
-	let directions = [
-		"North",
-		"North-East",
-		"East",
-		"South-East",
-		"South",
-		"South-West",
-		"West",
-		"North-West",
-	];
-	let index =
-		Math.round(((degrees %= 360) < 0 ? degrees + 360 : degrees) / 45) % 8;
+	let directions = ["North", "North-East", "East", "South-East", "South", "South-West", "West", "North-West"];
+	let index = Math.round(((degrees %= 360) < 0 ? degrees + 360 : degrees) / 45) % 8;
 	//Degrees = degrees / 360
 	//If degrees is less than 0, degrees = degrees + 360 / 45
 	//Else if degrees is more than 0, degrees = degrees / 45
@@ -181,24 +170,18 @@ function getDirection(degrees) {
 //________________________________________________________________________________SET DATA______________________________________________________________________________
 
 function setDataToday() {
-	weatherCodeToday =
-		responseTimeseries[todayIndex].data.next_1_hours.summary.symbol_code;
+	weatherCodeToday = responseTimeseries[todayIndex].data.next_1_hours.summary.symbol_code;
 	todaysWeatherImageDiv.innerHTML = `<img src="./resources/weatherIcons/${weatherCodeToday}.svg"></img>`;
 
-	todaysTemp =
-		responseTimeseries[
-			todayIndex
-		].data.instant.details.air_temperature.toFixed();
+	todaysTemp = responseTimeseries[todayIndex].data.instant.details.air_temperature.toFixed();
 	todaysTempDiv.innerHTML = todaysTemp;
 
-	windDegrees =
-		responseTimeseries[todayIndex].data.instant.details.wind_from_direction;
+	windDegrees = responseTimeseries[todayIndex].data.instant.details.wind_from_direction;
 	windDegrees = windDegrees.toFixed(); //remove decimals
 
 	todaysDetailsDiv.innerHTML =
 		"Precipitation: " +
-		responseTimeseries[todayIndex].data.next_1_hours.details
-			.precipitation_amount +
+		responseTimeseries[todayIndex].data.next_1_hours.details.precipitation_amount +
 		"" +
 		responseUnits.precipitation_amount +
 		"<br>" +
@@ -220,24 +203,18 @@ function setDataToday() {
 }
 
 function setDataForecast() {
-	weatherCodeForecast =
-		responseTimeseries[forecastIndex].data.next_1_hours.summary.symbol_code;
+	weatherCodeForecast = responseTimeseries[forecastIndex].data.next_1_hours.summary.symbol_code;
 	forecastWeatherImageDiv.innerHTML = `<img src="./resources/weatherIcons/${weatherCodeForecast}.svg"></img>`;
 
-	forecastTemp =
-		responseTimeseries[
-			forecastIndex
-		].data.instant.details.air_temperature.toFixed(); //remove decimals
+	forecastTemp = responseTimeseries[forecastIndex].data.instant.details.air_temperature.toFixed(); //remove decimals
 	forecastTempDiv.innerHTML = forecastTemp;
 
-	windDegrees =
-		responseTimeseries[forecastIndex].data.instant.details.wind_from_direction;
+	windDegrees = responseTimeseries[forecastIndex].data.instant.details.wind_from_direction;
 	windDegrees = windDegrees.toFixed(); //remove decimals
 
 	forecastDetailsDiv.innerHTML =
 		"Precipitation: " +
-		responseTimeseries[forecastIndex].data.next_1_hours.details
-			.precipitation_amount +
+		responseTimeseries[forecastIndex].data.next_1_hours.details.precipitation_amount +
 		" " +
 		responseUnits.precipitation_amount +
 		"<br>" +
@@ -247,9 +224,7 @@ function setDataForecast() {
 		responseUnits.relative_humidity +
 		"<br>" +
 		"Wind: " +
-		responseTimeseries[
-			forecastIndex
-		].data.instant.details.wind_speed.toFixed() +
+		responseTimeseries[forecastIndex].data.instant.details.wind_speed.toFixed() +
 		responseUnits.wind_speed +
 		" " +
 		`<img src="./resources/icons/degree_arrow.svg" style="transform: rotate(${windDegrees}deg)">${getDirection(

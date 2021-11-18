@@ -1,3 +1,7 @@
+<!-- TODO: Kalender -->
+<!-- TODO: Klokke -->
+<!-- TODO: Todo liste/gjøremål -->
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -28,11 +32,7 @@
 							>
 								°C
 							</button>
-							<button
-								onclick="convertTodaysTemp('F')"
-								class="tempChange"
-								id="todayFahrenheitButton"
-							>
+							<button onclick="convertTodaysTemp('F')" class="tempChange" id="todayFahrenheitButton">
 								°F
 							</button>
 						</div>
@@ -53,11 +53,7 @@
 							>
 								°C
 							</button>
-							<button
-								onclick="convertForecastTemp('F')"
-								class="tempChange"
-								id="forecastFahrenheitButton"
-							>
+							<button onclick="convertForecastTemp('F')" class="tempChange" id="forecastFahrenheitButton">
 								°F
 							</button>
 						</div>
@@ -68,28 +64,10 @@
 				<div class="bills"></div>
 				<div class="mainContent">
 					<div class="calendarNavBar">
-						<button
-							class="calendarButton"
-							id="todayButton"
-							onclick="highlightToday()"
-						>
-							Today
-						</button>
-						<button
-							class="calendarButton"
-							id="arrowButton"
-							onclick="changeMonth('back')"
-						>
-							<
-						</button>
-						<button
-							class="calendarButton"
-							id="arrowButton"
-							onclick="changeMonth('forward')"
-						>
-							>
-						</button>
-						<div class="monthDiv">November 2021</div>
+						<button class="calendarButton" id="todayButton" onclick="highlightToday()">Today</button>
+						<button class="calendarButton" id="arrowButton" onclick="currentMonth('-')"><</button>
+						<button class="calendarButton" id="arrowButton" onclick="currentMonth('+')">></button>
+						<div id="monthAndYearDiv" class="monthDiv"></div>
 					</div>
 					<div id="calendar"></div>
 				</div>

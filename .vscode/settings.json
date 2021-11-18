@@ -1,4 +1,9 @@
 {
     "editor.formatOnSave": true,
-    "liveServer.settings.port": 5501
+    "liveServer.settings.port": 5501,
+    "prettier.printWidth": 120,
+    "prettier.tabWidth": 4,
+    "editor.tokenColorCustomizations": {
+        "comments": "#575757"
+    }
 }
