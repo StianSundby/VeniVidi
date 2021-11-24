@@ -50,3 +50,29 @@ div {
 .footer {
 	grid-area: 6 / 1 / 7 / 7;
 }
+
+.tooltip {
+	position: relative;
+	display: inline-block;
+}
+
+.tooltip .tooltiptext {
+	font-size: 18px;
+	visibility: hidden;
+	width: 120px;
+	background-color: #1f2833;
+	color: #c5c6c7;
+	text-align: center;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+}
+
+#clock {
+	font-size: 30px;
+	color: #c5c6c7;
+}

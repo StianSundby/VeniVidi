@@ -25,7 +25,7 @@ currentMonth();
 function buildCalendar() {
 	removeAllChildNodes(calendar);
 	if (monthLength == null || undefined) {
-		daysInMonth(currentYear, currentTime.slice(5, 7)); //First parameter is year, second is month
+		daysInMonth(currentYear, parseInt(currentTime.slice(5, 7))); //First parameter is year, second is month
 	} else {
 		daysInMonth(currentYear, selectedMonth);
 	}
@@ -34,7 +34,7 @@ function buildCalendar() {
 		if (i % 7 === 6 || i % 7 === 0) {
 			weekend = true;
 		} else weekend = false;
-
+		//TODO: Styling; bordersa overlapper
 		let name = "";
 		if (i <= 7) {
 			//marks the first 7 days with dayName
@@ -53,12 +53,13 @@ function buildCalendar() {
 			</div>`
 		);
 	}
+	//TODO: OCD
 	calendar.insertAdjacentHTML(
 		//filler at the end. Used for buttons manipulating events
 		"beforeend",
 		`<div
-			style="width:${(35 - monthLength) * 100}%; " 
-			id="addEvent">
+			style="width:${(35 - monthLength) * 100}%;" 
+			id="addEvent"> 
 
 		</div>`
 	);
@@ -80,33 +81,32 @@ function daysInMonth(year, selectedMonth) {
 //called from the buttons above the calendar
 //finds the correct index in monthNames[] to display
 //changes year when nessecary
-//TODO: Denne bytter ikke år
 function currentMonth(plusOrMinus) {
-	console.log(selectedMonth);
 	if (selectedMonth == undefined || null) {
 		//gets current month
-		selectedMonth = new Date().getMonth();
-	} else if (selectedMonth == 0 && plusOrMinus == "-") {
+		selectedMonth = parseInt(currentTime.slice(5, 7));
+	} else if (selectedMonth == 1 && plusOrMinus == "-") {
 		//sends you back a year if you -1 when in January
 		currentYear = currentYear - 1;
-		selectedMonth = 11;
-	} else if (selectedMonth == 11 && plusOrMinus == "+") {
+		selectedMonth = 12;
+	} else if (selectedMonth == 12 && plusOrMinus == "+") {
 		//1 year forward if you +1 when in December
-		currentYear = currentYear++;
-		selectedMonth = 0;
+		currentYear = currentYear + 1;
+		selectedMonth = 1;
 	} else {
 		selectedMonth = selectedMonth + Number(plusOrMinus + 1);
 	}
-	month = monthNames[selectedMonth];
+	month = monthNames[selectedMonth - 1];
 	monthAndYearDiv.innerHTML = month + " " + currentYear;
-	console.log(currentYear);
 	buildCalendar(); //spooki callstack
 }
 
 //adds and removes a class on the current day. 7 lines of code to make it blink...
-//TODO: Denne fungerer ikke lenger..
+//it first resets the view to the current month and year before it highlights the day
 function highlightToday() {
-	let dayToHighlight = document.getElementById(currentTime.slice(5, 7) + month);
+	selectedMonth = null;
+	currentMonth();
+	let dayToHighlight = document.getElementById("C" + currentTime.slice(8, 10));
 	dayToHighlight.classList.add("highlightDiv");
 	setTimeout(function () {
 		dayToHighlight.classList.remove("highlightDiv");
@@ -129,7 +129,7 @@ document.querySelectorAll("#calendar .day").forEach((day) => {
 		event.currentTarget.classList.toggle("selected");
 	});
 });
-//TODO: riktig antall dager i hver måned. Skal genereres ettersom hvilken måned som er valgt
+
 //TODO: legge til events på en dag <--- Events burde kanskje være en klasse? new Event("") constructors..
 // function addEvent(ss){ new Event(date, repeat, )}
 // function showEventCurrentMonth()
@@ -139,5 +139,3 @@ document.querySelectorAll("#calendar .day").forEach((day) => {
 
 //TODO: lagre de i en backend???
 //TODO: da må jeg ha en login...0Auth? Google Authentication?
-
-//TODO: hente værdata ut ifra lokasjon? personvern?

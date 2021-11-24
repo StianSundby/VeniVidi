@@ -1,5 +1,4 @@
 <!-- TODO: Kalender -->
-<!-- TODO: Klokke -->
 <!-- TODO: Todo liste/gjøremål -->
 
 <!DOCTYPE html>
@@ -11,13 +10,39 @@
 		<link rel="stylesheet" href="stylesheets/baseStyle.css" />
 		<link rel="stylesheet" href="stylesheets/weatherStyle.css" />
 		<link rel="stylesheet" href="stylesheets/calendarStyle.css" />
+		<link rel="stylesheet" href="stylesheets/modal.css" />
 		<title>Veni Vidi</title>
 	</head>
 
-	<body>
+	<body onload="startTime()">
+		<script>
+			function startTime() {
+				const today = new Date();
+				let hours = today.getHours();
+				let minutes = today.getMinutes();
+				let seconds = today.getSeconds();
+				minutes = checkTime(minutes);
+				seconds = checkTime(seconds);
+				document.getElementById("clock").innerHTML = hours + ":" + minutes + ":" + seconds;
+				setTimeout(startTime, 1000);
+			}
+
+			function checkTime(unit) {
+				if (unit < 10) {
+					unit = "0" + unit;
+				}
+				return unit;
+			}
+		</script>
 		<div id="app">
 			<div class="parent">
-				<div class="navbar"></div>
+				<div class="navbar">
+					<div id="clock"></div>
+					<div class="tooltip">
+						<img style="cursor: pointer" src="./resources/icons/place_white_36dp.svg" />
+						<span class="tooltiptext">Change location?</span>
+					</div>
+				</div>
 				<div class="menu"></div>
 				<div class="weatherTodayContainer">
 					<h1>Today</h1>

@@ -20,15 +20,62 @@ let weatherCodeForecast; //used to find correct image
 var todaysTemp; //stores temperature for conversion
 var forecastTemp; //stores temperature for conversion
 
+let longitude;
+let latitude;
+let altitude;
+
 //________________________________________________________________________________GET DATA______________________________________________________________________________
 
 getDate(0, 2); //get todays date and time, and formats it correctly according to the API
-getWeatherData(); //get and store data, primarily in responseTimeseries. But also other stuff
+getLocation(); //get and store data, primarily in responseTimeseries. But also other stuff
+
+function getLocation() {
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(getAltitude, showGetLocationError);
+	} else {
+		alert("Geolocation is not supported by this browser");
+	}
+}
+function showGetLocationError(error) {
+	switch (error.code) {
+		case error.PERMISSION_DENIED:
+			alert("User denied the request for Geolocation.");
+			break;
+		case error.POSITION_UNAVAILABLE:
+			alert("Location information is unavailable.");
+			break;
+		case error.TIMEOUT:
+			alert("The request to get user location timed out.");
+			break;
+		case error.UNKNOWN_ERROR:
+			alert("An unknown error occured");
+			break;
+	}
+}
+
+function getAltitude(position) {
+	axios
+		.get(
+			`https://api.open-elevation.com/api/v1/lookup?locations=${position.coords.latitude},${position.coords.longitude}`
+		)
+		.then(function (altitudeResponse) {
+			altitude = "altitude=" + altitudeResponse.data.results[0].elevation;
+			longitude = "lon=" + position.coords.longitude;
+			latitude = "lat=" + position.coords.latitude;
+			console.log(altitude);
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+	getWeatherData();
+}
 
 function getWeatherData() {
-	const longitude = "lon=10.45480342151002";
-	const latitude = "lat=59.27569773646279";
-	const altitude = "altitude=26";
+	// console.log(position);
+	// let longitude = "lon=" + position.coords.longitude;
+	// let latitude = "lat=" + position.coords.latitude;
+	// let altitude = "altitude=0";
+
 	axios
 		.get(`https://api.met.no/weatherapi/locationforecast/2.0/compact?${longitude}&${latitude}&${altitude}`)
 		.then(function (response) {
