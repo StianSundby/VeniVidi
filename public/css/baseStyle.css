@@ -1,0 +1,85 @@
+/* 
+#0B0C10 BACKGROUND
+#1F2833 LESS BACKGROUND
+#C5C6C7 TEXT
+#66FCF1 HIGHLIGHT
+#45A29E LESS HIGHLIST
+
+*/
+
+html {
+	background: #0b0c10;
+}
+h1 {
+	text-align: center;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #45a29e;
+}
+p {
+	text-align: center;
+}
+div {
+	text-align: center;
+}
+.parent {
+	display: grid;
+	grid-template-columns: 0.4fr 1fr 1fr 0.4fr;
+	grid-template-rows: 0.1fr 0.1fr 0.2fr 0.1fr 4.5fr;
+	grid-column-gap: 0px;
+	grid-row-gap: 0px;
+}
+
+.navbar {
+	grid-area: 1 / 1 / 2 / 5;
+}
+.menu {
+	grid-area: 2 / 1 / 6 / 2;
+}
+.weatherTodayHeader {
+	grid-area: 2 / 2 / 3 / 3;
+}
+.weatherTodayContainer {
+	grid-area: 3 / 2 / 4 / 3;
+}
+.weatherForecastHeader {
+	grid-area: 2 / 3 / 3 / 4;
+}
+.weatherForecastContainer {
+	grid-area: 3 / 3 / 4 / 4;
+}
+.calendarButtons {
+	grid-area: 4 / 2 / 5 / 4;
+}
+.calendar {
+	grid-area: 5 / 2 / 6 / 4;
+}
+.rightMenu {
+	grid-area: 2 / 4 / 6 / 6;
+}
+
+.tooltip {
+	position: relative;
+	top: 25%;
+	float: left;
+}
+
+.tooltip .tooltiptext {
+	font-size: 18px;
+	visibility: hidden;
+	width: 120px;
+	background-color: #1f2833;
+	color: #c5c6c7;
+	text-align: center;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+}
+
+#clock {
+	font-size: 30px;
+	color: #c5c6c7;
+}

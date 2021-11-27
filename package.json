@@ -1,0 +1,27 @@
+{
+	"name": "VeniVidi",
+	"version": "1.0.0",
+	"description": "Check everything you have to at a glance. The goal of this program is to include everything from weather to calendar and other useful stuff, while being able to view everything on a single page - so that you can check it a glance!",
+	"main": "index.js",
+	"scripts": {
+		"start": "node server.js",
+		"dev": "nodemon server.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/StianSundby/VeniVidi.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/StianSundby/VeniVidi/issues"
+	},
+	"homepage": "https://github.com/StianSundby/VeniVidi#readme",
+	"dependencies": {
+		"express": "^4.17.1"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.15"
+	}
+}
