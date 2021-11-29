@@ -1,11 +1,9 @@
 //________________________________________________________________________________GET DATA______________________________________________________________________________
-
-getDate(0, 2); //get todays date and time, and formats it correctly according to the API
 getLocation(); //get and store data, primarily in responseTimeseries. But also other stuff
-
+getDate(0, 2); //get todays date and time, and formats it correctly according to the API
 function getLocation() {
 	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(getWeatherData, showGetLocationError);
+		navigator.geolocation.getCurrentPosition(getAltitude, showGetLocationError);
 	} else {
 		alert("Geolocation is not supported by this browser");
 	}
@@ -27,29 +25,23 @@ function showGetLocationError(error) {
 	}
 }
 
-//TODO: Dynamic altitude
-// function getAltitude(position) {
-// 	axios
-// 		.get(
-// 			`https://api.open-elevation.com/api/v1/lookup?locations=${position.coords.latitude},${position.coords.longitude}`
-// 		)
-// 		.then(function (altitudeResponse) {
-// 			altitude = "altitude=" + altitudeResponse.data.results[0].elevation;
-// 			longitude = "lon=" + position.coords.longitude;
-// 			latitude = "lat=" + position.coords.latitude;
-// 			console.log(altitude);
-// 		})
-// 		.catch(function (error) {
-// 			console.log(error);
-// 		});
-// 	getWeatherData();
-// }
+function getAltitude(position) {
+	axios
+		.get(
+			`https://api.open-elevation.com/api/v1/lookup?locations=${position.coords.latitude},${position.coords.longitude}`
+		)
+		.then(function (response) {
+			altitude = "altitude=" + response.data.results[0].elevation;
+			longitude = "lon=" + position.coords.longitude;
+			latitude = "lat=" + position.coords.latitude;
+			getWeatherData();
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+}
 
-function getWeatherData(position) {
-	longitude = "lon=" + position.coords.longitude;
-	latitude = "lat=" + position.coords.latitude;
-	altitude = "altitude=0";
-
+function getWeatherData() {
 	axios
 		.get(`https://api.met.no/weatherapi/locationforecast/2.0/compact?${longitude}&${latitude}&${altitude}`)
 		.then(function (response) {
@@ -57,7 +49,6 @@ function getWeatherData(position) {
 			responseUnits = response.data.properties.meta.units;
 			getCurrentTimeIndex(); //finds the index in responseTimeseries[] that corresponds with the current time
 			getForecastIndex(); //find the index in responseTimeseries[] that correspons with current time + 1 day/24 hours
-			console.log(response);
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -222,9 +213,6 @@ function setDataToday() {
 		`<img src="./resources/icons/degree_arrow.svg" style="transform: rotate(${windDegrees}deg)">${getDirection(
 			windDegrees
 		)}</img>`;
-	// +
-	// responseTimeseries[todayIndex].data.instant.details.wind_from_direction +
-	// responseUnits.wind_from_direction;
 }
 
 function setDataForecast() {

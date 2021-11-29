@@ -1,8 +1,9 @@
 let currentYear = currentTime.slice(0, 4); //same as above, but also used in buildCalendar()
 currentMonth();
 function buildCalendar() {
-	removeAllChildNodes(calendar);
+	removeAllChildNodes(calendar); //removes all children. Used for rebuilding the calendar when changing month
 	if (monthLength == null || undefined) {
+		//just ran at initilization
 		daysInMonth(currentYear, parseInt(currentTime.slice(5, 7))); //First parameter is year, second is month
 	} else {
 		daysInMonth(currentYear, selectedMonth);
@@ -10,6 +11,7 @@ function buildCalendar() {
 
 	for (let i = 1; i <= monthLength; i++) {
 		if (i % 7 === 6 || i % 7 === 0) {
+			//marks day 6 and 7 of the week as weekend
 			weekend = true;
 		} else weekend = false;
 		let name = "";
@@ -33,6 +35,7 @@ function buildCalendar() {
 	//TODO: OCD
 	calendar.insertAdjacentHTML(
 		//filler at the end. Used for buttons manipulating events
+		//35 is the amount of cells needed to fill 5 rows.
 		"beforeend",
 		`<div
 			style="width:${(35 - monthLength) * 100}%;" 
@@ -40,15 +43,31 @@ function buildCalendar() {
 
 		</div>`
 	);
+
+	//adds an onclick listener on all days generated in buildCalendar()
+	//onlick it adds a class to indicate that it has been selected
+	document.querySelectorAll("#calendar .day").forEach((day) => {
+		day.addEventListener("click", (event) => {
+			event.currentTarget.classList.toggle("selected");
+		});
+	});
 }
 
-//returns the short version of the day name - I.E: Mon, instead of Monday
-//parameter is which day of the month is to be returned
+/**
+ *
+ * @param {number} i which day of the month is to be returned
+ * @returns the short version of the day name - I.E: Mon, instead of Monday
+ */
 function getDayName(i) {
 	return dayNames[i - 1]; //i starts at 1, so -1 to get 0 index
 }
 
-//returns number of days in the current month based on what year it is
+/**
+ *
+ * @param {number} year which year is used to generate the data
+ * @param {number} selectedMonth which month is used to generate the data. Always uses the month the user is currently seeing
+ * @returns number of days in the current month based on what year it is
+ */
 function daysInMonth(year, selectedMonth) {
 	monthLength = new Date(year, selectedMonth, 0).getDate();
 	return;
@@ -57,6 +76,10 @@ function daysInMonth(year, selectedMonth) {
 //called from the buttons above the calendar
 //finds the correct index in monthNames[] to display
 //changes year when nessecary
+/**
+ *
+ * @param {string} plusOrMinus either "+" or "-" based on which button called the function
+ */
 function currentMonth(plusOrMinus) {
 	if (selectedMonth == undefined || null) {
 		//gets current month
@@ -77,31 +100,28 @@ function currentMonth(plusOrMinus) {
 	buildCalendar(); //spooki callstack
 }
 
-//adds and removes a class on the current day. 7 lines of code to make it blink...
+//adds and removes a class on the current day. 9 lines of code to make it blink...
 //it first resets the view to the current month and year before it highlights the day
 function highlightToday() {
 	selectedMonth = null;
+	currentYear = new Date().getFullYear();
 	currentMonth();
 	let dayToHighlight = document.getElementById("C" + currentTime.slice(8, 10));
 	dayToHighlight.classList.add("highlightDiv");
 	setTimeout(function () {
 		dayToHighlight.classList.remove("highlightDiv");
 	}, 250);
-	dayToHighlight.classList.toggle("selected");
+	dayToHighlight.click(); //click to toggle .selected class
 }
 
 //removes all children of the element sent as parameter
 //used to remove all calendar squares when changing month
+/**
+ *
+ * @param {HTMLElement} parent which element you want to remove all children from
+ */
 function removeAllChildNodes(parent) {
 	while (parent.firstChild) {
 		parent.removeChild(parent.firstChild);
 	}
 }
-
-//adds an onclick listener on all days generated in buildCalendar()
-//onlick it adds a class to indicate that it has been selected
-document.querySelectorAll("#calendar .day").forEach((day) => {
-	day.addEventListener("click", (event) => {
-		event.currentTarget.classList.toggle("selected");
-	});
-});

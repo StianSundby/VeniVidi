@@ -1,8 +1,13 @@
+//converts the current temperature to either Celsius or Fahrenheit, depending
+/**
+ *
+ * @param {string} buttonName can be either "C" or "F" based on what button called the function. Used to swap between Celsius and Fahrenheit conversion
+ */
 function convertTodaysTemp(buttonName) {
 	if (buttonName == "C" && todaysTempUnit == "F") {
 		todaysTempUnit = "C";
 		convertToCelsius("today", todaysTemp);
-		todaysTempDiv.innerHTML = Math.round(todaysTemp);
+		todaysTempDiv.innerHTML = Math.round(todaysTemp); //removes decimals. Rounds to the nearest.
 
 		todayCelsiusButton.classList.add("activeButton");
 		todayFahrenheitButton.classList.remove("activeButton");
@@ -16,6 +21,11 @@ function convertTodaysTemp(buttonName) {
 	}
 }
 
+//same as above, but converts the forecast temperature
+/**
+ *
+ * @param {string} buttonName can be either "C" or "F" based on what button called the function. Used to swap between Celsius and Fahrenheit conversion
+ */
 function convertForecastTemp(buttonName) {
 	if (buttonName == "C" && forecastTempUnit == "F") {
 		forecastTempUnit = "C";
@@ -34,6 +44,13 @@ function convertForecastTemp(buttonName) {
 	}
 }
 
+//converts celsius to fahrenheit
+/**
+ *
+ * @param {string} day Can be either "today" or "forecast" based on which button called the function. Used to select which temperature to convert
+ * @param {number} celsius degrees in Celsius, to be converted to Fahrenheit
+ * @returns {number} the converted temperature
+ */
 function convertToFahrenheit(day, celsius) {
 	if (day == "today") {
 		todaysTemp = (celsius * 9) / 5 + 32;
@@ -44,6 +61,13 @@ function convertToFahrenheit(day, celsius) {
 	} else return;
 }
 
+//converts fahrenheit to celsius
+/**
+ *
+ * @param {string} day Can be either "today" or "forecast" based on which button called the function. Used to select which temperature to convert
+ * @param {number} fahrenheit degrees in Fahrenheit, to be converted to Celsius
+ * @returns {number} the converted temperature
+ */
 function convertToCelsius(day, fahrenheit) {
 	if (day == "today") {
 		todaysTemp = ((fahrenheit - 32) * 5) / 9;

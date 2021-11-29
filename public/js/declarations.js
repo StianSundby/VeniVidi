@@ -21,9 +21,9 @@ let weatherCodeForecast; //used to find correct image
 var todaysTemp; //stores temperature for conversion
 var forecastTemp; //stores temperature for conversion
 
-let longitude;
-let latitude;
-let altitude;
+let longitude; //stores coordinates for weatherData. Used with Yr API
+let latitude; //  --||--
+let altitude; //  --||-- generated with Open-Elevation API
 //
 //
 //
@@ -39,7 +39,7 @@ var forecastTempUnit = "C"; //same as above
 //
 //______________________________________________________________________________calendar.js___________________________________________________________________________
 let monthAndYearDiv = document.getElementById("monthAndYearDiv");
-let calendar = document.querySelector("#calendar");
+let calendar = document.querySelector("#calendar"); //every div with id="calendar"
 let month; //used in buildCalendar to get the correct month. Generated in currentMonth()
 let monthLength; //used in buildCalendar to get the correct amount of days. Generated in daysInMonth()
 let selectedMonth; //used in currentMonth(). Just saved to change month forward or back. Note that this starts at 0, so December is 11 not 12
