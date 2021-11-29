@@ -8,6 +8,11 @@ function getLocation() {
 		alert("Geolocation is not supported by this browser");
 	}
 }
+
+/**
+ *
+ * @param {error.code} error error.code passed from getLocation() if anything goes wrong
+ */
 function showGetLocationError(error) {
 	switch (error.code) {
 		case error.PERMISSION_DENIED:
@@ -25,7 +30,12 @@ function showGetLocationError(error) {
 	}
 }
 
+/**
+ *
+ * @param {JSON} position contains coordinates and a timestamp. We only need the coordinates. Generated in getLocation()
+ */
 function getAltitude(position) {
+	console.log(position);
 	axios
 		.get(
 			`https://api.open-elevation.com/api/v1/lookup?locations=${position.coords.latitude},${position.coords.longitude}`
@@ -55,6 +65,11 @@ function getWeatherData() {
 		});
 }
 
+/**
+ *
+ * @param {number} dayOffset is used to get JSON from other timestamps, such as from tomorrow instead of today
+ * @param {number} hourOffset is used to convert from UTC to local time. Value is hardcoded for now. Also used to get JSON from other timestamps, such as 1-2 hours forward or back
+ */
 function getDate(dayOffset, hourOffset) {
 	//first parameter is the dayOffset, which means 0 is today, 1 is tomorrow etc.
 	//second parameter is the hourOffset, its 2 by default to get Norway time, so
@@ -76,6 +91,11 @@ function getDate(dayOffset, hourOffset) {
 		forecastTime = `${year}-${month}-${("0" + day).slice(-2)}T${time}:00Z`;
 	}
 }
+
+/**
+ *
+ * @returns the correct responseTimeseries index in the Yr API JSON. Containing the relevant weather data for today
+ */
 function getCurrentTimeIndex() {
 	for (let i = 0; i < responseTimeseries.length; i++) {
 		if (responseTimeseries[i].time == currentTime) {
@@ -123,6 +143,11 @@ function getCurrentTimeIndex() {
 
 	console.log("No data entry for today was found");
 }
+
+/**
+ *
+ * @returns the correct responseTimeseries index in the Yr API JSON. Containing the relevant weather data for tomorrow
+ */
 function getForecastIndex() {
 	for (let i = 0; i < responseTimeseries.length; i++) {
 		if (responseTimeseries[i].time == forecastTime) {
@@ -170,6 +195,12 @@ function getForecastIndex() {
 
 	console.log("No data entry for tomorrow was found");
 }
+
+/**
+ *
+ * @param {number} degrees where the wind is coming from in degrees. Fetched from the weatherdata JSON
+ * @returns {string} a string containing the correct direction based on the parameter
+ */
 function getDirection(degrees) {
 	let directions = ["North", "North-East", "East", "South-East", "South", "South-West", "West", "North-West"];
 	let index = Math.round(((degrees %= 360) < 0 ? degrees + 360 : degrees) / 45) % 8;

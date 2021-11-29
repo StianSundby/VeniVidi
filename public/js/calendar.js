@@ -86,11 +86,11 @@ function currentMonth(plusOrMinus) {
 		selectedMonth = parseInt(currentTime.slice(5, 7));
 	} else if (selectedMonth == 1 && plusOrMinus == "-") {
 		//sends you back a year if you -1 when in January
-		currentYear = currentYear - 1;
+		currentYear = parseInt(currentYear) - 1;
 		selectedMonth = 12;
 	} else if (selectedMonth == 12 && plusOrMinus == "+") {
 		//1 year forward if you +1 when in December
-		currentYear = currentYear + 1;
+		currentYear = parseInt(currentYear) + 1;
 		selectedMonth = 1;
 	} else {
 		selectedMonth = selectedMonth + Number(plusOrMinus + 1);
