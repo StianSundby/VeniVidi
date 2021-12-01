@@ -1,6 +1,6 @@
 //________________________________________________________________________________GET DATA______________________________________________________________________________
 getLocation(); //get and store data, primarily in responseTimeseries. But also other stuff
-getDate(0, 2); //get todays date and time, and formats it correctly according to the API
+getDate(0, 1); //get todays date and time, and formats it correctly according to the API
 function getLocation() {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(getAltitude, showGetLocationError);
@@ -35,7 +35,6 @@ function showGetLocationError(error) {
  * @param {JSON} position contains coordinates and a timestamp. We only need the coordinates. Generated in getLocation()
  */
 function getAltitude(position) {
-	console.log(position);
 	axios
 		.get(
 			`https://api.open-elevation.com/api/v1/lookup?locations=${position.coords.latitude},${position.coords.longitude}`
@@ -57,6 +56,7 @@ function getWeatherData() {
 		.then(function (response) {
 			responseTimeseries = response.data.properties.timeseries;
 			responseUnits = response.data.properties.meta.units;
+			console.log(response);
 			getCurrentTimeIndex(); //finds the index in responseTimeseries[] that corresponds with the current time
 			getForecastIndex(); //find the index in responseTimeseries[] that correspons with current time + 1 day/24 hours
 		})
@@ -78,15 +78,28 @@ function getDate(dayOffset, hourOffset) {
 	let date = new Date();
 	let year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(date);
 	let month = new Intl.DateTimeFormat("en", { month: "numeric" }).format(date);
+	let daysInMonth = new Date(year, month, 0).getDate();
 	let day = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(date);
-	day = parseInt(day) + dayOffset;
+
+	//when this function is called, make sure we actually get the day we're after
+	//if its the last day of the month, we need to change some stuff
+	if (day == daysInMonth && dayOffset > 0) {
+		day = 1 + dayOffset; //set the day to the first of the month
+		if (month == 12) {
+			//if its december
+			month = 1; //make it january, not month 13
+			year = parseInt(year) + 1; //add 1 year aswell
+		} else {
+			month = parseInt(month) + 1; //just add 1 month
+		}
+	}
 	let hours = date.getUTCHours() + hourOffset; //UTC == 00Z format
 	hours = ("0" + hours).slice(-2); //make sure its 2 digits
 	let time = hours + ":00"; //dont need minutes
 
 	//format according to API preference, and only change relevant data
 	if (dayOffset == 0) {
-		currentTime = `${year}-${month}-${("0" + day).slice(-2)}T${time}:00Z`; //00Z == UTC, so 2 hours behind Norway
+		currentTime = `${year}-${month}-${("0" + day).slice(-2)}T${time}:00Z`; //00Z == UTC, so 1 hours behind Norway
 	} else if (dayOffset > 0) {
 		forecastTime = `${year}-${month}-${("0" + day).slice(-2)}T${time}:00Z`;
 	}
@@ -97,51 +110,28 @@ function getDate(dayOffset, hourOffset) {
  * @returns the correct responseTimeseries index in the Yr API JSON. Containing the relevant weather data for today
  */
 function getCurrentTimeIndex() {
+	todayCounter++;
 	for (let i = 0; i < responseTimeseries.length; i++) {
 		if (responseTimeseries[i].time == currentTime) {
 			todayIndex = i;
+			todayCounter = 0;
 			setDataToday();
 			return;
 		}
 	}
-
-	getDate(0, 1); //-1 hour fallback
-	for (let i = 0; i < responseTimeseries.length; i++) {
-		if (responseTimeseries[i].time == currentTime) {
-			todayIndex = i;
-			setDataToday();
-			return;
-		}
+	if (todayCounter === 1) getDate(0, 2); //+1 hour fallback
+	if (todayCounter === 2) getDate(0, 0); //-1 hours fallback
+	if (todayCounter === 3) getDate(0, 3); //+2 hour fallback
+	if (todayCounter === 4) getDate(0, -1); //-2 hours fallback
+	if (todayCounter === 5) getDate(0, 4); //+3 hours fallback
+	if (todayCounter === 6) getDate(0, -2); //-3 hours fallback
+	if (todayCounter === 7) getDate(0, 5); //+4 hours fallback
+	if (todayCounter === 8) getDate(0, -3); //-4 hours fallback
+	if (todayCounter === 9) {
+		console.log("No data entry for today was found");
+		return;
 	}
-
-	getDate(0, 3); //+1 hour fallback
-	for (let i = 0; i < responseTimeseries.length; i++) {
-		if (responseTimeseries[i].time == currentTime) {
-			todayIndex = i;
-			setDataToday();
-			return;
-		}
-	}
-
-	getDate(0, 0); //-2 hours fallback
-	for (let i = 0; i < responseTimeseries.length; i++) {
-		if (responseTimeseries[i].time == currentTime) {
-			todayIndex = i;
-			setDataToday();
-			return;
-		}
-	}
-
-	getDate(0, 4); //+2 hours fallback
-	for (let i = 0; i < responseTimeseries.length; i++) {
-		if (responseTimeseries[i].time == currentTime) {
-			todayIndex = i;
-			setDataToday();
-			return;
-		}
-	}
-
-	console.log("No data entry for today was found");
+	getCurrentTimeIndex();
 }
 
 /**
@@ -149,51 +139,29 @@ function getCurrentTimeIndex() {
  * @returns the correct responseTimeseries index in the Yr API JSON. Containing the relevant weather data for tomorrow
  */
 function getForecastIndex() {
+	forecastCounter++;
 	for (let i = 0; i < responseTimeseries.length; i++) {
 		if (responseTimeseries[i].time == forecastTime) {
 			forecastIndex = i;
+			forecastCounter = 0;
 			setDataForecast();
 			return;
 		}
 	}
 
-	getDate(1, 1); //-1 hour fallback
-	for (let i = 0; i < responseTimeseries.length; i++) {
-		if (responseTimeseries[i].time == forecastTime) {
-			forecastIndex = i;
-			setDataForecast();
-			return;
-		}
+	if (forecastCounter === 1) getDate(1, 2); //+1 hour fallback
+	if (forecastCounter === 2) getDate(1, 0); //-1 hours fallback
+	if (forecastCounter === 3) getDate(1, 3); //+2 hour fallback
+	if (forecastCounter === 4) getDate(1, -1); //-2 hours fallback
+	if (forecastCounter === 5) getDate(1, 4); //+3 hours fallback
+	if (forecastCounter === 6) getDate(1, -2); //-3 hours fallback
+	if (forecastCounter === 7) getDate(1, 5); //+4 hours fallback
+	if (forecastCounter === 8) getDate(1, -3); //-4 hours fallback
+	if (forecastCounter === 9) {
+		console.log("No data entry for tomorrow was found");
+		return;
 	}
-
-	getDate(1, 3); //+1 hour fallback
-	for (let i = 0; i < responseTimeseries.length; i++) {
-		if (responseTimeseries[i].time == forecastTime) {
-			forecastIndex = i;
-			setDataForecast();
-			return;
-		}
-	}
-
-	getDate(1, 0); //-2 hours fallback
-	for (let i = 0; i < responseTimeseries.length; i++) {
-		if (responseTimeseries[i].time == forecastTime) {
-			forecastIndex = i;
-			setDataForecast();
-			return;
-		}
-	}
-
-	getDate(1, 4); //+2 hours fallback
-	for (let i = 0; i < responseTimeseries.length; i++) {
-		if (responseTimeseries[i].time == forecastTime) {
-			forecastIndex = i;
-			setDataForecast();
-			return;
-		}
-	}
-
-	console.log("No data entry for tomorrow was found");
+	getForecastIndex();
 }
 
 /**

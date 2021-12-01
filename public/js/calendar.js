@@ -39,16 +39,18 @@ function buildCalendar() {
 		"beforeend",
 		`<div
 			style="width:${(35 - monthLength) * 100}%;" 
-			id="addEvent"> 
+			id="eventContainer"> 
 
 		</div>`
 	);
+	standardView();
 
 	//adds an onclick listener on all days generated in buildCalendar()
 	//onlick it adds a class to indicate that it has been selected
 	document.querySelectorAll("#calendar .day").forEach((day) => {
 		day.addEventListener("click", (event) => {
 			event.currentTarget.classList.toggle("selected");
+			disableEdit();
 		});
 	});
 }
@@ -112,6 +114,23 @@ function highlightToday() {
 		dayToHighlight.classList.remove("highlightDiv");
 	}, 250);
 	dayToHighlight.click(); //click to toggle .selected class
+}
+
+//disable the edit button if no day is selected, or if more than one day is selected.
+//enable it if there is one singular day selected.
+function disableEdit() {
+	let count = 0;
+	document.querySelectorAll("#calendar .day").forEach((day) => {
+		if (day.classList.contains("selected")) {
+			count++;
+		}
+	});
+	if (count === 1) {
+		daySelected = true;
+	} else if (count > 1 || count < 1) {
+		daySelected = false;
+	}
+	standardView();
 }
 
 //removes all children of the element sent as parameter

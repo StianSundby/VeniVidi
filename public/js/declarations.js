@@ -9,6 +9,9 @@ var forecastWeatherImageDiv = document.getElementById("forecastWeatherImage");
 let responseTimeseries = []; //fetched in getWeatherData()
 let responseUnits; //measurement units
 
+let todayCounter = 0; //used to track how many times we loop through to find weather data
+let forecastCounter = 0; // --||--
+
 let currentTime; //generated in getDate()
 let forecastTime; //generated in getDate()
 
@@ -37,13 +40,14 @@ var forecastTempUnit = "C"; //same as above
 //
 //
 //
-//______________________________________________________________________________calendar.js___________________________________________________________________________
+//______________________________________________________________________________calendar.js_________________________________________________________________________________
 let monthAndYearDiv = document.getElementById("monthAndYearDiv");
 let calendar = document.querySelector("#calendar"); //every div with id="calendar"
 let month; //used in buildCalendar to get the correct month. Generated in currentMonth()
 let monthLength; //used in buildCalendar to get the correct amount of days. Generated in daysInMonth()
 let selectedMonth; //used in currentMonth(). Just saved to change month forward or back. Note that this starts at 0, so December is 11 not 12
 let weekend = false;
+let daySelected = false;
 let dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const monthNames = [
 	"January",
@@ -59,3 +63,8 @@ const monthNames = [
 	"November",
 	"December",
 ];
+//
+//
+//
+//
+//______________________________________________________________________________calendarEvents.js____________________________________________________________________________

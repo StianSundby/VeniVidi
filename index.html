@@ -1,6 +1,5 @@
-<!-- TODO: Styling på kalendern, bordersa overlapper -->
-
 <!-- TODO: Kalender -->
+<!-- TODO: eventContainer CSS. Er ikke riktig størrelse -->
 <!-- TODO: legge til events på en dag <--- Events burde kanskje være en klasse? new Event("") constructors..-->
 <!-- function addEvent(ss){ new Event(date, repeat, )}-->
 <!-- TODO: vise events på kalendern-->
@@ -18,6 +17,10 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- Loading screen -->
+		<link rel="stylesheet" href="./public/css/loading.css" />
+		<script src="./public/js/loadingScreen.js"></script>
+		<!-- CSS -->
 		<link rel="stylesheet" href="./public/css/baseStyle.css" />
 		<link rel="stylesheet" href="./public/css/weatherStyle.css" />
 		<link rel="stylesheet" href="./public/css/calendarStyle.css" />
@@ -27,6 +30,9 @@
 	</head>
 
 	<body onload="startTime()">
+		<div class="loader">
+			<img src="./resources/icons/loading.gif" alt="Loading..." />
+		</div>
 		<div id="app">
 			<div class="parent">
 				<div class="navbar">
@@ -99,6 +105,7 @@
 		<script src="./public/js/weatherData.js"></script>
 		<script src="./public/js/alterWeatherData.js"></script>
 		<!-- Calendar -->
+		<script src="./public/js/calendarEvents.js"></script>
 		<script src="./public/js/calendar.js"></script>
 	</body>
 </html>
