@@ -23,25 +23,15 @@ function buildCalendar() {
 
 		calendar.insertAdjacentHTML(
 			"beforeend",
-			`<div 
-				id="${"C" + i}" 
-				class="day ${weekend ? "weekend" : ""}"
-				>${name}
-				<br>
-				${i}
-			</div>`
+			`<div id="${"C" + i}" class="day ${weekend ? "weekend" : ""}">${name}<br>${i}</div>`
 		);
 	}
-	//TODO: OCD
+
 	calendar.insertAdjacentHTML(
 		//filler at the end. Used for buttons manipulating events
 		//35 is the amount of cells needed to fill 5 rows.
 		"beforeend",
-		`<div
-			style="width:${(35 - monthLength) * 100}%;" 
-			id="eventContainer"> 
-
-		</div>`
+		`<div style="width:${(35 - monthLength) * 100}%;" id="eventContainer"></div>`
 	);
 	standardView();
 
@@ -105,10 +95,11 @@ function currentMonth(plusOrMinus) {
 //adds and removes a class on the current day. 9 lines of code to make it blink...
 //it first resets the view to the current month and year before it highlights the day
 function highlightToday() {
+	console.log(currentTime.slice(8, 10))
 	selectedMonth = null;
 	currentYear = new Date().getFullYear();
 	currentMonth();
-	let dayToHighlight = document.getElementById("C" + currentTime.slice(8, 10));
+	let dayToHighlight = document.getElementById("C" + parseInt(currentTime.slice(8, 10)));
 	dayToHighlight.classList.add("highlightDiv");
 	setTimeout(function () {
 		dayToHighlight.classList.remove("highlightDiv");
@@ -125,11 +116,8 @@ function disableEdit() {
 			count++;
 		}
 	});
-	if (count === 1) {
-		daySelected = true;
-	} else if (count > 1 || count < 1) {
-		daySelected = false;
-	}
+	if (count === 1) {daySelected = true;} 
+	else if (count > 1 || count < 1) {daySelected = false;}
 	standardView();
 }
 

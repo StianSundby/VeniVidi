@@ -17,8 +17,6 @@ function startTime() {
  * @returns 00-09. Just adds a 0 infront of the number sent as a parameter if it is a single digit
  */
 function checkTime(unit) {
-	if (unit < 10) {
-		unit = "0" + unit;
-	}
+	if (unit < 10) {unit = "0" + unit;}
 	return unit;
 }

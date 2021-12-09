@@ -117,7 +117,7 @@
 	color: #c5c6c7;
 	cursor: pointer;
 }
-.eventButton:disabled,
+
 .eventButton[disabled] {
 	background-color: #1f283373;
 	color: #c5c6c773;

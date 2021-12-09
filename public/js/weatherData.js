@@ -56,7 +56,6 @@ function getWeatherData() {
 		.then(function (response) {
 			responseTimeseries = response.data.properties.timeseries;
 			responseUnits = response.data.properties.meta.units;
-			console.log(response);
 			getCurrentTimeIndex(); //finds the index in responseTimeseries[] that corresponds with the current time
 			getForecastIndex(); //find the index in responseTimeseries[] that correspons with current time + 1 day/24 hours
 		})
